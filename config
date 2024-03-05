@@ -1,0 +1,4 @@
+GEN_TIME=86400 # default generation time (in seconds)
+COV_INTERVAL=600 # time interval between gcovr invocations (in seconds)
+INPUTS_PER_GRAMMAR=40 # number of inputs to generate from each mutated grammar 
+REPS=3 # number of repetitions (runs)

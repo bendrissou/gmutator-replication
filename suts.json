@@ -1,0 +1,110 @@
+{
+   "json": [
+
+      {
+         "id": "1",
+         "name": "cjson",
+         "exe_raw": "json",
+         "exe_cov": "cov",
+         "folder": "bench/json/cjson"
+      },
+
+      {
+         "id": "2",
+         "name": "parson",
+         "exe_raw": "json",
+         "exe_cov": "cov",
+         "folder": "bench/json/parson"
+      },
+      
+      {
+         "id": "3",
+         "name": "simdjson",
+         "exe_raw": "json",
+         "exe_cov": "cov",
+         "folder": "bench/json/simdjson"
+      }
+
+   ],
+   "lua": [
+
+      {
+         "id": "4",
+         "name": "luac",
+         "exe_raw": "src/luac",
+         "exe_cov": "src/lua",
+         "folder": "bench/lua/luac"
+      },
+
+      {
+         "id": "5",
+         "name": "py-lua-parser",
+         "exe_raw": "bin/luaparser",
+         "exe_cov": "bin/luaparser",
+         "folder": "bench/lua/py-lua-parser"
+      },
+      
+      {
+         "id": "6",
+         "name": "luajit",
+         "exe_raw": "src/luajit",
+         "exe_cov": "src/luajit",
+         "folder": "bench/lua/luajit"
+      }
+
+   ],
+   "url": [
+
+      {
+         "id": "7",
+         "name": "aria2",
+         "exe_raw": "src/aria2c",
+         "exe_cov": "src/aria2c",
+         "folder": "bench/url/aria2"
+      },
+
+      {
+         "id": "8",
+         "name": "curl",
+         "exe_raw": "src/curl",
+         "exe_cov": "src/curl",
+         "folder": "bench/url/curl"
+      },
+      
+      {
+         "id": "9",
+         "name": "wget",
+         "exe_raw": "src/wget",
+         "exe_cov": "src/wget",
+         "folder": "bench/url/wget"
+      }
+
+   ],
+   "xml": [
+
+      {
+         "id": "10",
+         "name": "fast-xml-parser",
+         "exe_raw": "src/cli/cli.js",
+         "exe_cov": "src/cli/cli.js",
+         "folder": "bench/xml/fast-xml-parser"
+      },
+
+      {
+         "id": "11",
+         "name": "libxml2",
+         "exe_raw": "xmllint",
+         "exe_cov": "xmllint",
+         "folder": "bench/xml/libxml2"
+      },
+      
+      {
+         "id": "12",
+         "name": "pugixml",
+         "exe_raw": "build/make-g++-coverage-standard-c++11/test",
+         "exe_cov": "build/make-g++-coverage-standard-c++11/test",
+         "folder": "bench/xml/pugixml"
+      }
+
+   ]
+}
