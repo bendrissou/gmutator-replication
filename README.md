@@ -17,7 +17,7 @@ A string mutation is a blind mutation applied to a string at the character or by
 
 ## Requirements
 
-We recommend using the [docker image](https://doi.org/10.5281/zenodo.10781797), which contains the following dependencies and more:
+We recommend using the docker image stored in [the artefact](https://doi.org/10.5281/zenodo.10781796), which contains the following dependencies and more:
 * **Python**: >= 3.7
 * **grammarinator**: >= 19.3
 * **antlr**: = 4.13.0
@@ -39,7 +39,7 @@ Install the following software:
 
 Download the artefact file `artefact.tar.gz` from Zenodo:
 ```
-https://dl.acm.org/doi/10.1145/3605157.3605170
+https://doi.org/10.5281/zenodo.10781796
 ```
 
 Check the file hash:
