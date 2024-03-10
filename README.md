@@ -277,3 +277,74 @@ Once completed, you can view the results of each SUT run. The following command 
 ```sh
 $ make -B results LANG=json SUTS=cjson 
 ```
+
+## Ruse Gmutator
+
+Gmutator is impelemented in [gmutate.py](./scripts/gmutate.py) script. In this section, we want to demonstrate how we can apply Gmutator to any antlr grammar. Therefore, as an example, we will use an antlr grammar for the CSV language `CSV.g4`. First obtain the grammar file, then place it in the root direcotry of the project.
+
+ ```sh
+$ cat CSV.g4
+grammar CSV;
+
+csvFile
+    : hdr row+ EOF
+    ;
+
+hdr
+    : row
+    ;
+
+row
+    : field (',' field)* '\r'? '\n'
+    ;
+
+field
+    : TEXT
+    | STRING
+    |
+    ;
+
+TEXT
+    : ~[,\n\r"]+
+    ;
+
+STRING
+    : '"' ('""' | ~'"')* '"'
+    ; // quote-quote is an escaped quote
+ ```
+
+
+Next, setup some directories:
+
+ ```sh
+$ mkdir -p csv/gmutator/mutant-g
+$ cp CSV.g4 csv
+ ```
+
+Then, execute Gmutator. Gmutator takes as arguments the source grammar, the destination folder, and a seed integer:
+
+ ```sh
+$ cd scripts
+$ python3 gmutate.py ../csv/CSV.g4 mutant-g 1
+$ cd ../csv
+$ 
+```
+
+In cases where the antlr grammar is composed of two files: parser and lexer files. The python command above is the same, except that we add a fourth parameter, which is the lexer file path.
+
+Now, let's examine the mutations applied:
+
+```sh
+$ diff CSV.g4 gmutator/mutant-g/CSV.g4
+4c4
+<     : hdr row+ EOF
+---
+>     : (hdr | field) (row | hdr)+ EOF
+16c16
+<     : TEXT
+---
+>     : TEXT*
+```
+
+We can run the same steps to apply Gmutator to other anltr grammars.
+
