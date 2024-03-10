@@ -37,7 +37,7 @@ Install the following software:
 
 * Docker
 
-Download the docker image file `gmutator.tar` from Zenodo:
+Download the artefact file `artefact.tar.gz` from Zenodo:
 ```
 https://dl.acm.org/doi/10.1145/3605157.3605170
 ```
@@ -45,8 +45,8 @@ https://dl.acm.org/doi/10.1145/3605157.3605170
 Check the file hash:
 
 ```
-$ md5sum gmutator.tar
-db3e30e7ee0def323ea04c81c66d9f26  gmutator.tar
+$ md5sum artefact.tar.gz
+2db0a3eab2379c8f759484e8bcb26b84  artefact.tar.gz
 ```
 
 ### Importing the image
@@ -54,7 +54,9 @@ db3e30e7ee0def323ea04c81c66d9f26  gmutator.tar
 Execute the following command to load the docker image:
 
 ```
-$ docker load -i gmutator.tar
+$ tar -xzf artefact.tar.gz
+$ cd gmutator-replication
+$ docker load -i image.tar
 Loaded image: gmutator-replication:all
 ```
 
@@ -251,7 +253,7 @@ In the above example, we do differential testing on all of the three json SUTs, 
 
 ## Reproduce results
 
-The provided docker image contains the artifact used in the paper. To reproduce the experiment results reported in the paper, first make sure you are using the default configurations.
+The provided docker image contains the artefact used in the paper. To reproduce the experiment results reported in the paper, first make sure you are using the default configurations.
 
  ```sh
 $ cat config
