@@ -280,7 +280,7 @@ Once completed, you can view the results of each SUT run. The following command 
 $ make -B results LANG=json SUTS=cjson 
 ```
 
-## Ruse Gmutator
+## Reuse Gmutator
 
 Gmutator is impelemented in [gmutate.py](./scripts/gmutate.py) script. In this section, we want to demonstrate how we can apply Gmutator to any antlr grammar. Therefore, as an example, we will use an antlr grammar for the CSV language `CSV.g4`. First obtain the grammar file, then place it in the root direcotry of the project.
 
