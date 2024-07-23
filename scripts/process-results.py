@@ -8,6 +8,21 @@ import plotext as plx
 import numpy as np
 import ast
 
+def load_json(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
+
+def save_json(data, file_path):
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=3)
+
+def edit_entry(data, path, new_values):
+    keys = path.split('/')
+    inner_dict = data
+    for key in keys[:-1]:
+        inner_dict = inner_dict[key]
+    inner_dict[keys[-1]].update(new_values)
+
 def main():
     tool = sys.argv[1]
     lang = sys.argv[2]
@@ -23,6 +38,11 @@ def main():
     reports = []
     ini_time = []
     last_coverage = []
+
+    print()
+    title = ">> Processing results for " + str(tool) + " / " + sut + " (" + str(runs) + " runs)"
+    print(title)
+
     # Reading entries
     for run in range(1, runs+1):
         report_path = '../results/run-' + str(run) + '-' + tool + '-' + sut + '.txt'
@@ -70,17 +90,29 @@ def main():
     final_coverages = []
     for seq in coverage:
         final_coverages.append(seq[-1])
-        
-    print()
-    print("======================================================================\n")
-    title = ">> Evaluation results for " + str(tool) + " / " + sut + " (" + str(runs) + " runs)"
-    print(title)
-    #print()
-    print("\nNum of Inputs:\t {}  ({:.2f})".format(round(np.mean(n_inputs)), np.std(n_inputs)))
-    print("Accept Invalid:\t {}  ({:.2f})".format(round(np.mean(accept_invalid)), np.std(accept_invalid)))
-    print("Reject Valid:\t {}  ({:.2f})".format(round(np.mean(reject_valid)), np.std(reject_valid)))
-    print("Branch Coverage: {}  ({:.2f})".format(round(np.mean(final_coverages)), np.std(final_coverages)))
-    print("Crashes:\t {}  (SUM)".format(round(np.sum(crashes))))
+    
+    if str(tool) == 'grammarinator+mutations': tool='g+m'
+    
+    # Specify the path to the results json data and the new values to update
+    path = sut + '/' + str(tool)
+    new_values = {
+        "inputs": round(np.mean(n_inputs)),
+        "accept-invalid": round(np.mean(accept_invalid)),
+        "reject-valid": round(np.mean(reject_valid)),
+        "total-coverage": round(np.mean(final_coverages)),
+        "unique-coverage": -1,
+        "crashes": round(np.sum(crashes))
+    }
+
+    file_path = '../results.json'
+    data = load_json(file_path)
+
+    # Edit results data
+    edit_entry(data, path, new_values)
+
+    # Save the modified data back to the file
+    save_json(data, file_path)
+
 
 if __name__ == '__main__': 
     main()
