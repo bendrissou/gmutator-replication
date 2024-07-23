@@ -78,6 +78,7 @@ generate_gmutator:
 ########### Show results
 
 results:
+	cd scripts && python3 clear-results.py
 	@for sut in $(SUTS) ; do \
 		for tool in $(TOOLS) ; do \
 			cd scripts && python3 plot.py $$tool $(LANG) $$sut $(RUNS) ; \

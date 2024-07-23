@@ -1,0 +1,314 @@
+{
+   "cjson": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "parson": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "simdjson": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "luac": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "luajit": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "py-lua-parser": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "aria2": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "curl": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "wget": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "fast-xml-parser": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "libxml2": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   },
+   "pugixml": {
+         "grammarinator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "gmutator": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         },
+         "g+m": {
+            "inputs": -1,
+            "accept-invalid": -1,
+            "reject-valid": -1,
+            "total-coverage": -1,
+            "unique-coverage": -1,
+            "crashes": -1
+         }
+   }
+}
