@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+import numpy as np
 import re
 import glob
 import subprocess
@@ -21,6 +21,22 @@ import os
 import sys
 import json
 import argparse
+
+def load_json(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
+
+def save_json(data, file_path):
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=3)
+
+def update_results(data, sut, tool, new_value):
+    path = sut + '/' + tool + '/unique-coverage'
+    keys = path.split('/')
+    d = data
+    for key in keys[:-1]:
+        d = d[key]
+    d[keys[-1]] = new_value
 
 def get_source_files(sut_folder):
     batcmd="gcovr -r " + sut_folder
@@ -85,65 +101,92 @@ def coverage_diff(lines_a, lines_b):
     diff = list(set(lines_a) - set(lines_b))
     return sorted(diff)
 
+def determine_language(sut_value=None):
+    # Determine the language based on the SUT value
+    language_map = {
+        'cjson': 'json',
+        'parson': 'json',
+        'simdjson': 'json',
+        'luac': 'lua',
+        'luajit': 'lua',
+        'py-lua-parser': 'lua',
+        'aria2': 'url',
+        'curl': 'url',
+        'wget': 'url',
+        'fast-xml-parser': 'xml',
+        'libxml2': 'xml',
+        'pugixml': 'xml',
+    }
+
+    language = language_map.get(sut_value)
+
+    if language:
+        return language
+    else:
+        raise ValueError(f"Error: Unknown SUT {sut_value}")
+
+
 
 def main():
-    parser = argparse.ArgumentParser(description='Shows the difference in coverage of two project folders. You need to specify two source folders and optionally specify summary.')
-    parser.add_argument('--source-1', type=str, required=True, help='First source project folder.')
-    parser.add_argument('--source-2', type=str, required=True, help='Second source project folder.')
-    parser.add_argument('--summary', action='store_true', help='Include this flag for summary results (optional).')
+    parser = argparse.ArgumentParser(description='Shows the difference in coverage of an SUT by two different tools.')
+    parser.add_argument('--sut', type=str, required=True, help='Name of system under test.')
+    parser.add_argument('--runs', type=int, required=True, help='Number of runs.')
 
     args = parser.parse_args()
 
     # Access the parsed arguments
-    source_1 = args.source_1
-    source_2 = args.source_2
-    summary = args.summary
+    sut = args.sut
+    runs = args.runs
+    lang = determine_language(sut)
 
-    uniq_total_num_1 = 0
-    uniq_total_num_2 = 0
-  
-    summary_report = {}
-    report = {}
-    
-    source_files_1 = get_source_files(source_1)
-    source_files_2 = get_source_files(source_2)
-    
-    files_count = len(source_files_1)
-    print("\nTotal number of code source files: ", files_count)
-    for i in range(files_count):
-        line = source_files_1[i]
-        missed_lines_1 = get_file_missed_lines(line)
-        
-        line = source_files_2[i]
-        missed_lines_2 = get_file_missed_lines(line)
-        
-        uniq_lines_1 = coverage_diff(missed_lines_2, missed_lines_1)
-        uniq_lines_2 = coverage_diff(missed_lines_1, missed_lines_2)
-        
-        uniq_num_1 = len(uniq_lines_1) 
-        uniq_num_2 = len(uniq_lines_2) 
-        
-        if uniq_num_1 == uniq_num_2 == 0: continue
-        uniq_total_num_1 += uniq_num_1
-        uniq_total_num_2 += uniq_num_2
-        
-        file_name = line.split()[0]
-        
-        summary_report[file_name] = {"unique lines ({})".format(source_1): uniq_num_1, "unique lines ({})".format(source_2): uniq_num_2}
-        
-        report[file_name] = {"unique lines ({})".format(source_1): uniq_num_1, \
-        "line numbers ({})".format(source_1): uniq_lines_1, \
-        "unique lines ({})".format(source_2): uniq_num_2, \
-        "line numbers ({})".format(source_2): uniq_lines_2, }
+    all_runs_cov_1 = []
+    all_runs_cov_2 = []
 
-    if summary:
-        print(json.dumps(summary_report, sort_keys=False, indent=4))
-    else:
-        print(json.dumps(report, sort_keys=False, indent=4))
+    for run in range(1, runs+1):
+        source_1 = '../bench/' + lang + '/run-' + str(run) + '-grammarinator+mutations-' + sut
+        source_2 = '../bench/' + lang + '/run-' + str(run) + '-gmutator-' + sut
 
-    print("Total unique line coverage ({}): ".format(source_1), uniq_total_num_1)
-    print("Total unique line coverage ({}): ".format(source_2), uniq_total_num_2)
+        uniq_total_num_1 = 0
+        uniq_total_num_2 = 0
     
+        source_files_1 = get_source_files(source_1)
+        source_files_2 = get_source_files(source_2)
     
+        files_count = len(source_files_1)
+
+        for i in range(files_count):
+            line = source_files_1[i]
+            missed_lines_1 = get_file_missed_lines(line)
+        
+            line = source_files_2[i]
+            missed_lines_2 = get_file_missed_lines(line)
+            
+            uniq_lines_1 = coverage_diff(missed_lines_2, missed_lines_1)
+            uniq_lines_2 = coverage_diff(missed_lines_1, missed_lines_2)
+            
+            uniq_num_1 = len(uniq_lines_1) 
+            uniq_num_2 = len(uniq_lines_2) 
+            
+            if uniq_num_1 == uniq_num_2 == 0: continue
+            uniq_total_num_1 += uniq_num_1
+            uniq_total_num_2 += uniq_num_2
+            
+        print()
+        print("Total unique line coverage ({}): ".format(source_1), uniq_total_num_1)
+        print("Total unique line coverage ({}): ".format(source_2), uniq_total_num_2)
+        all_runs_cov_1.append(uniq_total_num_1)
+        all_runs_cov_2.append(uniq_total_num_2)
+    
+    file_path = '../results.json'
+    data = load_json(file_path)
+
+    # Edit results data
+    update_results(data, sut, "g+m", round(np.mean(all_runs_cov_1)))
+    update_results(data, sut, "gmutator", round(np.mean(all_runs_cov_2)))
+
+    # Save the modified data back to the file
+    save_json(data, file_path)
+
+
 if __name__ == '__main__': 
     main()
