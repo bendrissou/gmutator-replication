@@ -17,8 +17,7 @@ RUN = 1
 
 ########### Main target
 
-all:
-	@mkdir -p results
+generate:
 	@r=0 ; while [[ $$r -lt $(RUNS) ]] ; do \
 		((r = r + 1)) ; \
 		for sut in $(SUTS) ; do \
@@ -36,7 +35,11 @@ all:
 			done ; \
 		done ; \
 	done
+
+all:
+	@$(MAKE) -s generate
 	@$(MAKE) -s process-results
+	@$(MAKE) -s show-results
 
 all-parallel: close_tmux_sessions
 	tmux new-session -d -s cjson
