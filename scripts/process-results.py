@@ -16,13 +16,12 @@ def save_json(data, file_path):
     with open(file_path, 'w') as file:
         json.dump(data, file, indent=3)
 
-def update_specific_value(data, sut, tool, new_value):
-    path = sut + '/' + tool + '/unique-coverage'
+def edit_entry(data, path, new_values):
     keys = path.split('/')
-    d = data
+    inner_dict = data
     for key in keys[:-1]:
-        d = d[key]
-    d[keys[-1]] = new_value
+        inner_dict = inner_dict[key]
+    inner_dict[keys[-1]].update(new_values)
 
 def main():
     tool = sys.argv[1]
