@@ -171,9 +171,6 @@ def main():
             uniq_total_num_1 += uniq_num_1
             uniq_total_num_2 += uniq_num_2
             
-        print()
-        print("Total unique line coverage ({}): ".format(source_1), uniq_total_num_1)
-        print("Total unique line coverage ({}): ".format(source_2), uniq_total_num_2)
         all_runs_cov_1.append(uniq_total_num_1)
         all_runs_cov_2.append(uniq_total_num_2)
     

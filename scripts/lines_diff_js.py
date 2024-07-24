@@ -106,9 +106,6 @@ def main():
         for file, count in unique_counts2.items():
             total_unique_lines_2 += count
 
-        print()
-        print("total_unique_lines_1: ", total_unique_lines_1)
-        print("total_unique_lines_2: ", total_unique_lines_2)
         all_runs_cov_1.append(total_unique_lines_1)
         all_runs_cov_2.append(total_unique_lines_2)
 

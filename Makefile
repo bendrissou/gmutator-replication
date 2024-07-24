@@ -36,7 +36,7 @@ all:
 			done ; \
 		done ; \
 	done
-	@$(MAKE) -s -B results
+	@$(MAKE) -s process-results
 
 all-parallel: close_tmux_sessions
 	tmux new-session -d -s cjson
@@ -77,14 +77,21 @@ generate_gmutator:
 
 ########### Show results
 
-results:
-	cd scripts && python3 clear-results.py
+process-results:
+	@echo -e "+ Processing results ... "
+	@cd scripts && python3 clear-results.py
 	@for sut in $(SUTS) ; do \
+		cd scripts && python3 lines_diff.py --sut $$sut --runs $(RUNS) ; \
 		for tool in $(TOOLS) ; do \
-			cd scripts && python3 process-results.py $$tool $(LANG) $$sut $(RUNS) ; \
-			cd .. ; \
+			python3 process-results.py $$tool $(LANG) $$sut $(RUNS) ; \
 		done ; \
+		cd .. ; \
 	done
+	@echo -e "\n>> Processing differential coverage for py-lua-parser "
+	@cd scripts && python3 lines_diff_py.py $(RUNS)
+	@echo -e "\n>> Processing differential coverage for fast-xml-parser "
+	@cd scripts && python3 lines_diff_js.py $(RUNS)
+	@echo -e "\n+ Done processing results ... "
 
 ########### Compile SUTs
 
