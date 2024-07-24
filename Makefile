@@ -80,18 +80,34 @@ generate_gmutator:
 process-results:
 	@echo -e "+ Processing results ... "
 	@cd scripts && python3 clear-results.py
-	@for sut in $(SUTS) ; do \
-		cd scripts && python3 lines_diff.py --sut $$sut --runs $(RUNS) ; \
+	@cd scripts ; \
+	for sut in $(SUTS) ; do \
 		for tool in $(TOOLS) ; do \
 			python3 process-results.py $$tool $(LANG) $$sut $(RUNS) ; \
 		done ; \
-		cd .. ; \
 	done
+	@echo -e "\n>> Processing differential coverage for: cjson parson simdjson aria2 curl wget luac luajit libxml2 pugixml "
+	@cd scripts && python3 lines_diff.py --sut cjson --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut parson --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut simdjson --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut aria2 --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut curl --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut wget --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut luac --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut luajit --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut libxml2 --runs $(RUNS)
+	@cd scripts && python3 lines_diff.py --sut pugixml --runs $(RUNS)
 	@echo -e "\n>> Processing differential coverage for py-lua-parser "
 	@cd scripts && python3 lines_diff_py.py $(RUNS)
 	@echo -e "\n>> Processing differential coverage for fast-xml-parser "
 	@cd scripts && python3 lines_diff_js.py $(RUNS)
 	@echo -e "\n+ Done processing results ... "
+
+show-results:
+	@echo -e "\n\n>> Results for Table 2 and Figure 3 in paper >> "
+	@cd scripts && python3 show-table-2-fig-3.py
+	@echo -e "\n\n>> Results for Table 4 in paper >> "
+	@cd scripts && python3 show-table-4.py
 
 ########### Compile SUTs
 
