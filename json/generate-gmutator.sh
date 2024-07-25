@@ -39,7 +39,7 @@ while [ $SECONDS -lt $end ]; do
     
     # In case there was a fatal error, and no input got generated, we move to the next iteration.
     if [ $EXIT_CODE -ne 0 ]; then
-        echo 'EXIT code not equal 0 !'
+        #echo 'EXIT code not equal 0 !'
         ((S=S+3))
         ((I=I+1))
         cd ..

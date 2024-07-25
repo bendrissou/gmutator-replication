@@ -5,6 +5,7 @@ SHELL := /bin/bash # Use bash syntax
 
 SUT = all # parson
 SUTS =cjson parson simdjson aria2 curl wget luac luajit py-lua-parser fast-xml-parser libxml2 pugixml
+STATUS_FILES = $(addprefix .done_,$(SUTS))
 TOOL = 
 TOOLS = grammarinator grammarinator+mutations gmutator
 LANG =xml
@@ -15,7 +16,7 @@ INTERVAL = $(COV_INTERVAL)
 RUNS = $(REPS)
 RUN = 1
 
-########### Main target
+########### Main targets
 
 generate:
 	@r=0 ; while [[ $$r -lt $(RUNS) ]] ; do \
@@ -27,7 +28,7 @@ generate:
 					echo "Error: Unknown SUT $$sut" >&2 ; \
 					exit 1 ; \
 					fi ; \
-				echo -e "\n> Generation run" $$r":" $$sut "/" $$tool "... " ; \
+				echo -e "\n> Generation run" $$r":" $$sut "/" $$tool ; \
 				echo -e "  Compiling SUT ... " ; \
 				$(MAKE) -s compile RUN=$$r TOOL=$$tool LANG=$$lang SUT=$$sut &> /dev/null ; \
 				echo -e "  Generating inputs ... " ; \
@@ -41,32 +42,27 @@ all:
 	@$(MAKE) -s process-results
 	@$(MAKE) -s show-results
 
-all-parallel: close_tmux_sessions
-	tmux new-session -d -s cjson
-	tmux send-keys -t cjson 'make SUTS=cjson' C-m
-	tmux new-session -d -s parson
-	tmux send-keys -t parson 'make SUTS=parson' C-m
-	tmux new-session -d -s simdjson
-	tmux send-keys -t simdjson 'make SUTS=simdjson' C-m
-	tmux new-session -d -s luac
-	tmux send-keys -t luac 'make SUTS=luac' C-m
-	tmux new-session -d -s luajit
-	tmux send-keys -t luajit 'make SUTS=luajit' C-m
-	tmux new-session -d -s py-lua-parser
-	tmux send-keys -t py-lua-parser 'make SUTS=py-lua-parser' C-m
-	tmux new-session -d -s aria2
-	tmux send-keys -t aria2 'make SUTS=aria2' C-m
-	tmux new-session -d -s curl
-	tmux send-keys -t curl 'make SUTS=curl' C-m
-	tmux new-session -d -s wget
-	tmux send-keys -t wget 'make SUTS=wget' C-m
-	tmux new-session -d -s fast-xml-parser
-	tmux send-keys -t fast-xml-parser 'make SUTS=fast-xml-parser' C-m
-	tmux new-session -d -s libxml2
-	tmux send-keys -t libxml2 'make SUTS=libxml2' C-m
-	tmux new-session -d -s pugixml
-	tmux send-keys -t pugixml 'make SUTS=pugixml' C-m
-	
+all-parallel: close_tmux_sessions $(STATUS_FILES) print-info
+
+$(STATUS_FILES):
+	@-rm -f $@
+	@touch $@
+	@tmux new-session -d -s $(@:.done_%=%)
+	@tmux send-keys -t $(@:.done_%=%) 'make SUTS=$(@:.done_%=%) && rm $@' C-m
+
+wait-parallel: $(STATUS_FILES)
+	@while [ -n "$$(ls .done_* 2>/dev/null)" ]; do sleep 1; done
+	@echo -e "\n++ All parallel jobs are done."
+
+post-process: wait-parallel
+	@$(MAKE) -s process-results
+	@$(MAKE) -s show-results
+
+print-info:
+	@echo -e "\n++ Experiments starting"
+	@echo -e "\n++ Estimated execution time: $(shell echo $$((($(RUNS) * $(TIME) + 1800 * $(RUNS) + 3599) / 3600))) hour(s)"
+	@echo -e "\n++ All tmux sessions started"
+
 ########### Test Generation
 	
 generate_grammarinator:
@@ -81,7 +77,7 @@ generate_gmutator:
 ########### Show results
 
 process-results:
-	@echo -e "+ Processing results ... "
+	@echo -e "\n++ Processing results ... "
 	@cd scripts && python3 clear-results.py
 	@cd scripts ; \
 	for sut in $(SUTS) ; do \
@@ -104,13 +100,14 @@ process-results:
 	@cd scripts && python3 lines_diff_py.py $(RUNS)
 	@echo -e "\n>> Processing differential coverage for fast-xml-parser "
 	@cd scripts && python3 lines_diff_js.py $(RUNS)
-	@echo -e "\n+ Done processing results ... "
+	@echo -e "\n++ Done processing results. "
 
 show-results:
 	@echo -e "\n\n>> Results for Table 2 and Figure 3 in paper >> "
 	@cd scripts && python3 show-table-2-fig-3.py
 	@echo -e "\n\n>> Results for Table 4 in paper >> "
 	@cd scripts && python3 show-table-4.py
+	@echo -e "\n"
 
 ########### Compile SUTs
 
@@ -154,6 +151,7 @@ prepare_sut:
 		
 clean:
 	rm -rf results
+	rm -f .done_*
 	for lang in $(LANGS) ; do \
 		rm -rf bench/$$lang/run* ; \
 		rm -rf $$lang/grammarinator/tests ; \
@@ -162,10 +160,7 @@ clean:
 	done
 
 close_tmux_sessions:
-	# Kill the tmux server and ignore errors
 	-@tmux kill-server 2>/dev/null || true
-	
-	# Wait for tmux server to exit
 	@while tmux has-session 2>/dev/null; do \
 		sleep 0.1; \
 	done
