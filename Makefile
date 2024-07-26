@@ -45,7 +45,6 @@ all:
 all-parallel: close_tmux_sessions $(STATUS_FILES) print-info
 
 $(STATUS_FILES):
-	@-rm -f $@
 	@touch $@
 	@tmux new-session -d -s $(@:.done_%=%)
 	@tmux send-keys -t $(@:.done_%=%) 'make SUTS=$(@:.done_%=%) && rm $@' C-m
@@ -160,7 +159,8 @@ clean:
 	done
 
 close_tmux_sessions:
-	-@tmux kill-server 2>/dev/null || true
-	@while tmux has-session 2>/dev/null; do \
-		sleep 0.1; \
+	@# Iterate over each session name in SUTS and kill the session if it exists
+	@for session in $(SUTS); do \
+		tmux has-session -t $$session 2>/dev/null && tmux kill-session -t $$session || true; \
 	done
+	-@rm -f .done_*
