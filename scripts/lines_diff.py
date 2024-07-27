@@ -125,7 +125,10 @@ def determine_language(sut_value=None):
     else:
         raise ValueError(f"Error: Unknown SUT {sut_value}")
 
-
+def check_folder_exists(folder_a, folder_b):
+    if not os.path.exists(folder_a) or not os.path.exists(folder_b):
+        # Folder does not exists
+        sys.exit(0)
 
 def main():
     parser = argparse.ArgumentParser(description='Shows the difference in coverage of an SUT by two different tools.')
@@ -145,6 +148,7 @@ def main():
     for run in range(1, runs+1):
         source_1 = '../bench/' + lang + '/run-' + str(run) + '-grammarinator+mutations-' + sut
         source_2 = '../bench/' + lang + '/run-' + str(run) + '-gmutator-' + sut
+        check_folder_exists(source_1, source_2)
 
         uniq_total_num_1 = 0
         uniq_total_num_2 = 0

@@ -1,15 +1,22 @@
 import xml.etree.ElementTree as ET
 import json
+import os
 import sys
 import subprocess
 import numpy as np
 
 def execute_command(tool, run):
-    folder_name = "run-" + str(run) + "-" + tool + "-fast-xml-parser"
-    command = "../bench/xml/" + folder_name + "/node_modules/nyc/bin/nyc.js report --reporter=clover --cwd ../bench/xml/" + folder_name
+    folder_name = "../bench/xml/run-" + str(run) + "-" + tool + "-fast-xml-parser"
+    check_folder_exists(folder_name)
+    command = folder_name + "/node_modules/nyc/bin/nyc.js report --reporter=clover --cwd ../bench/xml/" + folder_name
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     output_file = "../bench/xml/" + folder_name + "/coverage/clover.xml"
     return parse_coverage(output_file)
+
+def check_folder_exists(folder_path):
+    if not os.path.exists(folder_path):
+        # Folder does not exists
+        sys.exit(0)
 
 def load_json(file_path):
     with open(file_path, 'r') as file:

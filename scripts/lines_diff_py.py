@@ -1,13 +1,20 @@
 import json
+import os
 import sys
 import subprocess
 import numpy as np
 
 def execute_command(tool, run):
+    check_folder_exists("../bench/lua/run-" + str(run) + "-" + tool + "-py-lua-parser")
     path_folder = "'../bench/lua/run-" + str(run) + "-" + tool + "-py-lua-parser/luaparser/*'"
     path_data_file = "'../bench/lua/run-" + str(run) + "-" + tool + "-py-lua-parser/.coverage'"
     command = "coverage json --pretty-print -o coverage-" + tool + ".json --include=" + path_folder + " --data-file=" + path_data_file
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
+
+def check_folder_exists(folder_path):
+    if not os.path.exists(folder_path):
+        # Folder does not exists
+        sys.exit(0)
 
 def load_json(file_path):
     with open(file_path, 'r') as file:

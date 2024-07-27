@@ -106,99 +106,122 @@ The goal is test how effective each tool is, at testing computer programs and in
 
 ## How to run
 
-For example, to run experiments for two json SUTs: cjson and parson, 4 seconds time generation each, 1 repetition, and all three tools. We do the following:
+You can start by running a small-scale test. For example:
+
 ```sh
-make TIME=4 RUNS=1 TOOLS='grammarinator grammarinator+mutations gmutator' SUTS='cjson parson' LANG=json
+make all TIME=60 RUNS=1 TOOLS='grammarinator+mutations gmutator' SUTS='cjson'
 ```
+
+This command sequentially runs the `cjson` System Under Test (SUT) with the Gmutator and Grammarinator+mutations tools, each for 60 seconds. The execution includes a post-processing step to process and display the results.
 
 Output:
 ```
-> Generation run 1: cjson / grammarinator ... 
+> Generation run 1: cjson / grammarinator+mutations
   Compiling SUT ... 
   Generating inputs ... 
 
-> Generation run 1: cjson / grammarinator+mutations ... 
+> Generation run 1: cjson / gmutator
   Compiling SUT ... 
   Generating inputs ... 
 
-> Generation run 1: cjson / gmutator ... 
-  Compiling SUT ... 
-  Generating inputs ... 
+++ Processing results ... 
 
-> Generation run 1: parson / grammarinator ... 
-  Compiling SUT ... 
-  Generating inputs ... 
+>> Processing results for grammarinator+mutations / cjson (1 runs)
 
-> Generation run 1: parson / grammarinator+mutations ... 
-  Compiling SUT ... 
-  Generating inputs ... 
+>> Processing results for gmutator / cjson (1 runs)
 
-> Generation run 1: parson / gmutator ... 
-  Compiling SUT ... 
-  Generating inputs ... 
+>> Processing differential coverage for: cjson parson simdjson aria2 curl wget luac luajit libxml2 pugixml 
 
-======================================================================
+>> Processing differential coverage for py-lua-parser 
 
->> Evaluation results for grammarinator / cjson (1 runs)
+>> Processing differential coverage for fast-xml-parser 
 
-Num of Inputs:   7  (0.00)
-Accept Invalid:  0  (0.00)
-Reject Valid:  0  (0.00)
-Branch Coverage: 0  (0.00)
-Crashes:   0  (SUM)
+++ Done processing results. 
 
-======================================================================
 
->> Evaluation results for grammarinator+mutations / cjson (1 runs)
+>> Results for Table 2 and Figure 3 in paper >> 
 
-Num of Inputs:   7  (0.00)
-Accept Invalid:  0  (0.00)
-Reject Valid:  0  (0.00)
-Branch Coverage: 0  (0.00)
-Crashes:   0  (SUM)
+=============================================================================
+         |                          Grammarinator                           |
+-----------------------------------------------------------------------------
+         |  inputs  | accept-invalid |  reject-valid  | coverage | crashes  |
+-----------------------------------------------------------------------------
+cjson    |       -1 |             -1 |             -1 |       -1 |       -1 |
+parson   |       -1 |             -1 |             -1 |       -1 |       -1 |
+simdjson |       -1 |             -1 |             -1 |       -1 |       -1 |
+luac     |       -1 |             -1 |             -1 |       -1 |       -1 |
+luajit   |       -1 |             -1 |             -1 |       -1 |       -1 |
+py-lua   |       -1 |             -1 |             -1 |       -1 |       -1 |
+aria2    |       -1 |             -1 |             -1 |       -1 |       -1 |
+curl     |       -1 |             -1 |             -1 |       -1 |       -1 |
+wget     |       -1 |             -1 |             -1 |       -1 |       -1 |
+fast-xml |       -1 |             -1 |             -1 |       -1 |       -1 |
+libxml2  |       -1 |             -1 |             -1 |       -1 |       -1 |
+pugixml  |       -1 |             -1 |             -1 |       -1 |       -1 |
 
-======================================================================
+=============================================================================
+         |                             Gmutator                             |
+-----------------------------------------------------------------------------
+         |  inputs  | accept-invalid |  reject-valid  | coverage | crashes  |
+-----------------------------------------------------------------------------
+cjson    |      105 |              1 |              1 |        0 |        0 |
+parson   |       -1 |             -1 |             -1 |       -1 |       -1 |
+simdjson |       -1 |             -1 |             -1 |       -1 |       -1 |
+luac     |       -1 |             -1 |             -1 |       -1 |       -1 |
+luajit   |       -1 |             -1 |             -1 |       -1 |       -1 |
+py-lua   |       -1 |             -1 |             -1 |       -1 |       -1 |
+aria2    |       -1 |             -1 |             -1 |       -1 |       -1 |
+curl     |       -1 |             -1 |             -1 |       -1 |       -1 |
+wget     |       -1 |             -1 |             -1 |       -1 |       -1 |
+fast-xml |       -1 |             -1 |             -1 |       -1 |       -1 |
+libxml2  |       -1 |             -1 |             -1 |       -1 |       -1 |
+pugixml  |       -1 |             -1 |             -1 |       -1 |       -1 |
 
->> Evaluation results for gmutator / cjson (1 runs)
+=============================================================================
+         |                               G+M                                |
+-----------------------------------------------------------------------------
+         |  inputs  | accept-invalid |  reject-valid  | coverage | crashes  |
+-----------------------------------------------------------------------------
+cjson    |      100 |              1 |              0 |        0 |        0 |
+parson   |       -1 |             -1 |             -1 |       -1 |       -1 |
+simdjson |       -1 |             -1 |             -1 |       -1 |       -1 |
+luac     |       -1 |             -1 |             -1 |       -1 |       -1 |
+luajit   |       -1 |             -1 |             -1 |       -1 |       -1 |
+py-lua   |       -1 |             -1 |             -1 |       -1 |       -1 |
+aria2    |       -1 |             -1 |             -1 |       -1 |       -1 |
+curl     |       -1 |             -1 |             -1 |       -1 |       -1 |
+wget     |       -1 |             -1 |             -1 |       -1 |       -1 |
+fast-xml |       -1 |             -1 |             -1 |       -1 |       -1 |
+libxml2  |       -1 |             -1 |             -1 |       -1 |       -1 |
+pugixml  |       -1 |             -1 |             -1 |       -1 |       -1 |
 
-Num of Inputs:   5  (0.00)
-Accept Invalid:  0  (0.00)
-Reject Valid:  0  (0.00)
-Branch Coverage: 0  (0.00)
-Crashes:   0  (SUM)
 
-======================================================================
+>> Results for Table 4 in paper >> 
 
->> Evaluation results for grammarinator / parson (1 runs)
+================================
+  Differential Line Coverage   |
+--------------------------------
+         | Gmutator |   G+M    |
+--------------------------------
+cjson    |       84 |       13 |
+parson   |       -1 |       -1 |
+simdjson |       -1 |       -1 |
+luac     |       -1 |       -1 |
+luajit   |       -1 |       -1 |
+py-lua   |       -1 |       -1 |
+aria2    |       -1 |       -1 |
+curl     |       -1 |       -1 |
+wget     |       -1 |       -1 |
+fast-xml |       -1 |       -1 |
+libxml2  |       -1 |       -1 |
+pugixml  |       -1 |       -1 |
 
-Num of Inputs:   6  (0.00)
-Accept Invalid:  0  (0.00)
-Reject Valid:  0  (0.00)
-Branch Coverage: 0  (0.00)
-Crashes:   0  (SUM)
-
-======================================================================
-
->> Evaluation results for grammarinator+mutations / parson (1 runs)
-
-Num of Inputs:   6  (0.00)
-Accept Invalid:  2  (0.00)
-Reject Valid:  0  (0.00)
-Branch Coverage: 0  (0.00)
-Crashes:   0  (SUM)
-
-======================================================================
-
->> Evaluation results for gmutator / parson (1 runs)
-
-Num of Inputs:   5  (0.00)
-Accept Invalid:  2  (0.00)
-Reject Valid:  0  (0.00)
-Branch Coverage: 0  (0.00)
-Crashes:   0  (SUM)
 ```
 
-After execution completes, we output final code branch coverage, crashes found and the number of parsing dicrepancies detected. The results are stored in files under folder `results`. Each file stores results of 1 run / 1 SUT / 1 tool. Correspondigly, file names have the following format: RUN-TOOL-SUT.txt e.g `run-1-gmutator-cjson.txt` stores evalaution data of the first run for every input generated by Gmutator, and executed by cjson. Lets take a look inside the file.
+Results are first produced in file `results.json`, then printed in tables as shown above. Entries with a value of -1 indicate missing or incomplete evaluations.
+
+
+During execution, we record code coverage, crashes found and the number of parsing dicrepancies detected. Raw results are stored in files under folder `results`. Each file stores results of 1 run / 1 SUT / 1 tool. Correspondingly, file names have the following format: RUN-TOOL-SUT.txt e.g `run-1-gmutator-cjson.txt` stores evaluation data of the first run for every input generated by Gmutator, and executed by `cjson`. Lets take a look inside the file.
 
 ```sh
 head results/run-1-gmutator-cjson.txt
@@ -213,53 +236,17 @@ Output:
 [4, 'gmutator', 'json', '13', 'cjson', 0, 0, 0, -1, 0]
 ```
 Each line in of the form:
-
+```
 [time(s), tool, format, seed, SUT, accept_invalid, reject_valid, crashes, coverage, SUT_valid]
-
-The coverage is 0 initially, because `gcovr` was neved invoked. This is due to the long time interval between gcovr invocations (default interval is 600 seconds). We can change configuration by editing the `config` file. Default configurations. Let's change configurations to the following:
-
-```
-GEN_TIME=36 # default generation time (in seconds)
-COV_INTERVAL=6 # time interval between gcovr invocations (in seconds)
-INPUTS_PER_GRAMMAR=4 # number of inputs to generate from each mutated grammar 
-REPS=1 # number of repetitions (runs)
 ```
 
-Next, we can run the new experiment, this time on all three json SUTs:
-```sh
-make TOOLS='grammarinator grammarinator+mutations gmutator' SUTS='cjson parson simdjson' LANG=json
-```
-
-
-After running the experiments as above, we can output the results for a specific target, with the following command:
-```sh
-cd scripts
-python3 plot.py gmutator json parson 1
-```
-This shows the performance of gmutator tool on a json parser (parson), for one run:
-```
->> Evaluation results for gmutator / parson (1 runs)
-
-Num of Inputs:   45  (0.00)
-Accept Invalid:  8  (0.00)
-Reject Valid:  1  (0.00)
-Branch Coverage: 26  (0.00)
-Crashes:   0  (SUM)
-```
-
-To compare the number of parsing discrepancies found by a given tool, on different SUTs of the same input format (all SUTs of the target format should be run first). Run the following:
-```sh
-cd scripts
-python3 sut-diff.py grammarinator cjson 1
-```
-
-In the above example, we do differential testing on all of the three json SUTs, on grammarinator-generated inputs, and on one run of input generation. It's important that the corresponding result files are present.
+The coverage is 0 initially, because `gcovr` was never invoked. This is due to the long time interval between `gcovr` invocations (default interval is 600 seconds). We can change configuration by editing the `config` file.
 
 ## Reproduce results
 
-The provided docker image contains the artefact used in the paper. To reproduce the experiment results reported in the paper, first make sure you are using the default configurations.
+The provided docker image contains the artefact used in the paper. To reproduce the experiment results reported in the paper, first make sure to use the default configurations.
 
- ```sh
+```sh
 cat config
 ```
 
@@ -271,10 +258,12 @@ INPUTS_PER_GRAMMAR=40 # number of inputs to generate from each mutated grammar
 REPS=3 # number of repetitions (runs)
  ```
 
-Next, run:
+Running experiments with the above default configurations is expected to take approximately nine days. However, you can modify these settings as needed. For instance, reducing the number of repetitions to a single run will shorten the experiment duration to about three days. One run should be sufficient to reproduce the results detailed in the paper.
+
+Next, to launch the full experiment in parallel mode, execute:
 
 ```sh
-make all-parallel
+make all-parallel post-process
 ```
 
 Our experiments require (4 input formats) × (3 SUTs per input format) × (3 generation tools) × (3 repeat runs) × (24 h per repeat run) = 2,592 hours of CPU time.
@@ -282,17 +271,100 @@ Our experiments require (4 input formats) × (3 SUTs per input format) × (3 gen
 
 The make command will launch 12 tmux sessions in parallel. So expect around 9 days for the experiments to complete.
 
-Once completed, you can view the results of each SUT run. The following command outputs all results for cjson:
+Once all threads have completed execution, the results are processed and displayed to the user automatically.
+
+Alternatively, results can be read at a later stage by invoking the appropriate make command:
+
 
 ```sh
-make -B results LANG=json SUTS=cjson 
+make show-results
+```
+
+The following is a sample output of a one hour run: 
+```
+>> Results for Table 2 and Figure 3 in paper >> 
+
+=============================================================================
+         |                          Grammarinator                           |
+-----------------------------------------------------------------------------
+         |  inputs  | accept-invalid |  reject-valid  | coverage | crashes  |
+-----------------------------------------------------------------------------
+cjson    |     5866 |              0 |             28 |       40 |        0 |
+parson   |     5870 |              0 |            307 |       36 |        0 |
+simdjson |     5840 |              0 |             90 |       12 |        0 |
+luac     |     1578 |              0 |            101 |       36 |        0 |
+luajit   |     1572 |              0 |           1463 |       22 |        0 |
+py-lua   |     1334 |              0 |           1177 |       87 |        0 |
+aria2    |     4746 |              0 |           1442 |        7 |        0 |
+curl     |     5436 |              0 |            802 |        5 |        0 |
+wget     |     5656 |              0 |            639 |       10 |        0 |
+fast-xml |      631 |              0 |             23 |       48 |        0 |
+libxml2  |     5383 |              0 |            580 |        3 |        0 |
+pugixml  |     5477 |              0 |              0 |        7 |        0 |
+
+=============================================================================
+         |                             Gmutator                             |
+-----------------------------------------------------------------------------
+         |  inputs  | accept-invalid |  reject-valid  | coverage | crashes  |
+-----------------------------------------------------------------------------
+cjson    |     5607 |             55 |             19 |       41 |        0 |
+parson   |     5604 |            307 |            171 |       38 |        0 |
+simdjson |     5577 |              0 |             56 |       14 |        0 |
+luac     |     2470 |              6 |             10 |       35 |        0 |
+luajit   |     2454 |              0 |            488 |       22 |        0 |
+py-lua   |     1951 |              1 |            285 |       88 |        0 |
+aria2    |     4473 |            775 |            770 |        8 |        0 |
+curl     |     4991 |            976 |            389 |        6 |        0 |
+wget     |     5038 |           1022 |            278 |       11 |        0 |
+fast-xml |      631 |             15 |             11 |       50 |        0 |
+libxml2  |     5069 |             14 |            386 |        4 |        0 |
+pugixml  |     5230 |            287 |             25 |        9 |        0 |
+
+=============================================================================
+         |                               G+M                                |
+-----------------------------------------------------------------------------
+         |  inputs  | accept-invalid |  reject-valid  | coverage | crashes  |
+-----------------------------------------------------------------------------
+cjson    |     5432 |             65 |              1 |       41 |        0 |
+parson   |     5432 |           1374 |             22 |       38 |        0 |
+simdjson |     5406 |              0 |              8 |       13 |        0 |
+luac     |     1913 |              2 |              5 |       34 |        0 |
+luajit   |     1882 |              0 |            122 |       22 |        0 |
+py-lua   |     1552 |             39 |             93 |       88 |        1 |
+aria2    |     4377 |           1032 |            226 |        8 |        0 |
+curl     |     5048 |           1537 |            148 |        6 |        0 |
+wget     |     5238 |           2423 |            102 |       11 |        0 |
+fast-xml |      630 |             46 |             14 |       53 |        0 |
+libxml2  |     4927 |              3 |            386 |        4 |        0 |
+pugixml  |     5148 |            377 |            192 |        9 |        0 |
+
+
+>> Results for Table 4 in paper >> 
+
+================================
+  Differential Line Coverage   |
+--------------------------------
+         | Gmutator |   G+M    |
+--------------------------------
+cjson    |        2 |        2 |
+parson   |        3 |        3 |
+simdjson |       56 |        3 |
+luac     |      118 |       66 |
+luajit   |       15 |       80 |
+py-lua   |       10 |       13 |
+aria2    |        0 |        8 |
+curl     |        1 |        5 |
+wget     |        0 |        0 |
+fast-xml |        3 |       28 |
+libxml2  |      254 |      167 |
+pugixml  |       10 |       13 |
 ```
 
 ## Reuse Gmutator
 
-Gmutator is impelemented in [gmutate.py](./scripts/gmutate.py) script. In this section, we want to demonstrate how we can apply Gmutator to any antlr grammar. Therefore, as an example, we will use an antlr grammar for the CSV language `CSV.g4`. First obtain the grammar file, then place it in the root direcotry of the project.
+Gmutator is impelemented in [gmutate.py](./scripts/gmutate.py) script. In this section, we want to demonstrate how we can apply Gmutator to any antlr grammar. Therefore, as an example, we will use an antlr grammar for the CSV language `CSV.g4`. First obtain the grammar file, then place it in the root directory of the project.
 
- ```sh
+```sh
 cat CSV.g4
 ```
 
@@ -325,19 +397,19 @@ TEXT
 STRING
     : '"' ('""' | ~'"')* '"'
     ; // quote-quote is an escaped quote
- ```
+```
 
 
 Next, setup some directories:
 
- ```sh
+```sh
 mkdir -p csv/gmutator/mutant-g
 cp CSV.g4 csv
- ```
+```
 
 Then, execute Gmutator. Gmutator takes as arguments the source grammar, the destination folder, and a seed integer:
 
- ```sh
+```sh
 cd scripts
 python3 gmutate.py ../csv/CSV.g4 mutant-g 1
 cd ../csv

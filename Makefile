@@ -37,12 +37,12 @@ generate:
 		done ; \
 	done
 
-all:
+all: clean
 	@$(MAKE) -s generate
 	@$(MAKE) -s process-results
 	@$(MAKE) -s show-results
 
-all-parallel: close_tmux_sessions $(STATUS_FILES) print-info
+all-parallel: clean $(STATUS_FILES) print-info
 
 $(STATUS_FILES):
 	@touch $@
@@ -148,10 +148,12 @@ prepare_sut:
 
 ########### Clean
 		
-clean: close_tmux_sessions
-	rm -rf results
+clean: close_tmux_sessions clean_suts
+	@rm -rf results/*
 	@cd scripts && python3 clear-results.py
-	for lang in $(LANGS) ; do \
+
+clean_suts:
+	@for lang in $(LANGS) ; do \
 		rm -rf bench/$$lang/run* ; \
 		rm -rf $$lang/grammarinator/tests ; \
 		rm -rf $$lang/grammarinator+mutations/tests ; \
