@@ -148,9 +148,9 @@ prepare_sut:
 
 ########### Clean
 		
-clean:
+clean: close_tmux_sessions
 	rm -rf results
-	rm -f .done_*
+	@cd scripts && python3 clear-results.py
 	for lang in $(LANGS) ; do \
 		rm -rf bench/$$lang/run* ; \
 		rm -rf $$lang/grammarinator/tests ; \
