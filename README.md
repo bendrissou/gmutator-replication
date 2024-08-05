@@ -109,6 +109,7 @@ The goal is test how effective each tool is, at testing computer programs and in
 You can start by running a small-scale test. For example:
 
 ```sh
+cd /home/gmutator-replication
 make all TIME=60 RUNS=1 TOOLS='grammarinator+mutations gmutator' SUTS='cjson'
 ```
 
@@ -247,6 +248,7 @@ The coverage is 0 initially, because `gcovr` was never invoked. This is due to t
 The provided docker image contains the artefact used in the paper. To reproduce the experiment results reported in the paper, first make sure to use the default configurations.
 
 ```sh
+cd /home/gmutator-replication
 cat config
 ```
 
