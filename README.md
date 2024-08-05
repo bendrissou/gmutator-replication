@@ -46,7 +46,7 @@ Check the file hash:
 
 ```sh
 md5sum artefact.tar.gz
-07a989e49909dc4f2487b9320b07bceb  artefact.tar.gz
+7ef5c72ec03e8c2e8160c69fe5e3803c  artefact.tar.gz
 ```
 
 ### Importing the image
